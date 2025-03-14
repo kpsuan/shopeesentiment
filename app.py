@@ -1,4 +1,5 @@
 # Importing libraries
+import os
 import numpy as np
 import pandas as pd
 import re
@@ -12,7 +13,7 @@ import nltk
 # Download nltk resources (if not already downloaded)
 nltk.download('stopwords')
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 model = pickle.load(open('model.pkl', 'rb'))
 
 @app.route('/', methods=['GET','POST'])
@@ -63,4 +64,5 @@ def predict():
     return render_template('index.html')
 
 if __name__ == "__main__":
-    app.run(debug=False, host='0.0.0.0')
+    port = int(os.environ.get("PORT", 5000))
+    app.run(debug=False, host='0.0.0.0', port=port)
